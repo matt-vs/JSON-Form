@@ -16,8 +16,7 @@ const FormComponent = () => {
     })
 
     const onSubmit = (e) => {
-        // https://enovode7uq1r.x.pipedream.net/
-        const url = 'http://localhost:3001/'
+        const url = 'https://enovode7uq1r.x.pipedream.net/'
         e.preventDefault();
         const formDataJSON = JSON.stringify({
             ...formData, phone_number: formatPhoneNumber(formData.phone_number)
