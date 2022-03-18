@@ -1,0 +1,11 @@
+#main-container {
+    place-items: center center;
+}
+
+#btn{
+    border-radius: 25px;
+}
+
+#input{
+    border-radius: 25px;
+}

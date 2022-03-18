@@ -1,0 +1,26 @@
+#main-container {
+    place-items: center center;
+    color: black;
+     background-color: white;
+    /* background-image: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);  */
+    border: 1px solid black;
+    border-radius: 25px;
+}
+
+#section-divider {
+    justify-content: center;
+}
+
+/* #form {
+    background-color: grey;
+} */
+
+#input{
+    border-radius: 25px;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+}
+
+#btn {
+    border-radius: 25px;
+    box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+}
