@@ -22,7 +22,7 @@ const FormComponent = () => {
             ...formData, phone_number: formatPhoneNumber(formData.phone_number)
         });
         localStorage.setItem('formData', formDataJSON);
-        axios.post(url, formData)
+        axios.post(url, formDataJSON)
         navigate(`/merci/${formData.first_name}`)
     }
 
