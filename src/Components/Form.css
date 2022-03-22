@@ -15,9 +15,10 @@
     background-color: grey;
 } */
 
-#input{
+.input{
     border-radius: 25px;
     box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+    width: 100%;
 }
 
 #btn {
