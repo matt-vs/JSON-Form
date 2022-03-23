@@ -8,12 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import bootstrap from 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MaskedInput from 'react-text-mask';
-import MaskedFormControl from 'react-bootstrap-maskedinput';
 
 const FormComponent = () => {
 
     const navigate = useNavigate();
-    const [current, setCurrent] = useState(null);
     const [validated, setValidated] = useState(false);
     const [toggleSubmit, setToggleSubmit] = useState(false);
     const [formData, setFormData] = useState({
@@ -28,14 +26,12 @@ const FormComponent = () => {
     }, [formData])
 
     const onSubmit = (e) => {
-        // const url = 'https://enovode7uq1r.x.pipedream.net/';
+        const url = 'https://enovode7uq1r.x.pipedream.net/';
         const form = e.currentTarget;
         setToggleSubmit(true);
         if (form.checkValidity() === false) {
             e.preventDefault();
             e.stopPropagation();
-            // setFormErrors(validateForm(formData));
-            // console.log(formErrors);
 
         } else {
             e.preventDefault();
@@ -45,7 +41,7 @@ const FormComponent = () => {
             });
 
             localStorage.setItem('formData', formDataJSON);
-            // axios.post(url, formDataJSON);
+            axios.post(url, formDataJSON);
             navigate(`/merci/${formData.first_name}`);
         }
     }
@@ -55,36 +51,35 @@ const FormComponent = () => {
         const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         const phoneRegex = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
         if (!emailRegex.test(values.email)) {
-            errors.email = "SVP entrez un email valide"
-        } else { errors.email = "" }
+            errors.email = "Veuillez entrer un email valide"
+        } else { errors.email = "" };
 
         if (!phoneRegex.test(values.phone_number)) {
-            errors.phone_number = "SVP entrez votre téléphone en format (123) 123-1234"
-        } else { errors.phone_number = "" }
+            errors.phone_number = "Veuillez entrer votre téléphone en format (123) 123-1234"
+        } else { errors.phone_number = "" };
 
         if (!values.first_name) {
-            errors.first_name = 'Prénom non valide';
-        } else { errors.first_name = '' }
+            errors.first_name = 'Veuillez entrer un prénom valide';
+        } else { errors.first_name = '' };
 
         if (!values.last_name) {
-            errors.last_name = 'Nom nom valide'
-        } else { errors.last_name = '' }
+            errors.last_name = 'Veuillez entrer un nom valide'
+        } else { errors.last_name = '' };
 
         if (!values.street_address) {
-            errors.street_address = 'SVP entrez un adresse'
-        } else { errors.street_address = '' }
+            errors.street_address = 'Veuillez entrer un adresse'
+        } else { errors.street_address = '' };
 
         if (!values.post_code) {
-            errors.post_code = 'SVP entrez un code postal'
-        } else { errors.post_code = '' }
+            errors.post_code = 'Veuillez entrer un code postal'
+        } else { errors.post_code = '' };
 
         if (!values.country) {
-            errors.country = 'SVP choisez un pays'
-        } else { errors.country = '' }
+            errors.country = 'Veuillez choisir un pays'
+        } else { errors.country = '' };
+
         return errors;
     }
-
-
 
     const formatPhoneNumber = (phoneNumberString) => {
         let cleaned = ('' + phoneNumberString).replace(/\D/g, '');
@@ -97,20 +92,11 @@ const FormComponent = () => {
 
     const onChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-        // validateInput(e.target);
-        setCurrent(e.target)
-        // console.log(e.target.value)
-        console.log(formErrors)
     }
 
     return (
         <div id="main-container" className="container pt-2 w-50 d-grid h-100">
             <Form noValidate validated={validated} id="form" className="w-100" onSubmit={onSubmit}>
-                <MaskedInput
-                    className="mb-3" id="input"
-                    mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-
-                />
                 {
                     formJSON.questions.map((i) => {
                         return (
@@ -129,30 +115,49 @@ const FormComponent = () => {
                                     return (
                                         // map over fields
                                         v.map(fields => {
-                                            // console.log(fields)
                                             return (
                                                 Object.entries(fields).map(([k, v]) => {
-                                                    console.log(k, v)
                                                     if (v === 'text') {
-                                                        // do fields IF check here
-                                                        return (
-                                                            <Form.Group key={fields.name} className="mb-3" controlId="input">
-                                                                <Form.Label className="mb-1">{fields.label}</Form.Label>
-                                                                <Form.Control
-                                                                    required
-                                                                    onChange={onChange}
-                                                                    onClick={e => console.log(formErrors)}
-                                                                    isValid={toggleSubmit && formData[fields.name]}
-                                                                    // isInvalid={toggleSubmit && !formData[fields.name].length}
-                                                                    isInvalid={toggleSubmit && formErrors[fields.name]}
-                                                                    value={formData[fields.name]}
+                                                        if (fields.name === "phone_number") {
+                                                            return (
+                                                                <Form.Group key={fields.name} className="mb-3" controlId="input">
+                                                                    <Form.Label className="mb-1 form-label">{fields.label}</Form.Label>
+                                                                    <MaskedInput
+                                                                        className="form-control"
+                                                                        id="input"
+                                                                        style={toggleSubmit && formErrors[fields.name] ? { borderColor: "#d80000" } : toggleSubmit && !formErrors[fields.name] ? { borderColor: "green" } : {}}
+                                                                        required
+                                                                        onChange={onChange}
+                                                                        onClick={e => console.log(formErrors)}
+                                                                        mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+                                                                        value={formData[fields.name]}
 
-                                                                    name={fields.name} type={fields.type} placeholder={fields.label} />
-                                                                <Form.Control.Feedback type="invalid">
-                                                                    {formErrors[fields.name]}
-                                                                </Form.Control.Feedback>
-                                                            </Form.Group>
-                                                        )
+                                                                        name={fields.name} type={fields.type} placeholder={fields.label} />
+                                                                    {toggleSubmit && formErrors[fields.name] ? <div style={{ color: "#d80000", fontSize: '0.9rem' }}>
+                                                                        {formErrors[fields.name]}
+                                                                    </div> : ''}
+                                                                </Form.Group>
+                                                            )
+                                                        } else {
+                                                            return (
+                                                                <Form.Group key={fields.name} className="mb-3" controlId="input">
+                                                                    <Form.Label className="mb-1">{fields.label}</Form.Label>
+                                                                    <Form.Control
+                                                                        required
+                                                                        onChange={onChange}
+                                                                        onClick={e => console.log(formErrors)}
+                                                                        isValid={toggleSubmit && formData[fields.name]}
+                                                                        isInvalid={toggleSubmit && formErrors[fields.name]}
+                                                                        value={formData[fields.name]}
+
+                                                                        name={fields.name} type={fields.type} placeholder={fields.label} />
+                                                                    <Form.Control.Feedback type="invalid">
+                                                                        {formErrors[fields.name]}
+                                                                    </Form.Control.Feedback>
+                                                                </Form.Group>
+                                                            )
+                                                        }
+
                                                     } else if (v === 'dropdown') {
                                                         return (
                                                             <>
@@ -163,7 +168,7 @@ const FormComponent = () => {
                                                                     name={fields.name} onChange={(e) => setFormData({ ...formData, [e.target.name]: e.target.value })}
 
                                                                 >
-                                                                    <option key={fields.name}>Choisir un pays</option>
+                                                                    <option value='' key={fields.name}>Choisir un pays</option>
                                                                     {fields.options.map(obj => {
                                                                         return (
                                                                             <option key={obj.value} value={obj.value}
