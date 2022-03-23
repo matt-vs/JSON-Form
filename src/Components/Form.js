@@ -26,21 +26,7 @@ const FormComponent = () => {
     }, [formData])
 
     const onSubmit = (e) => {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        const url = 'https://enovode7uq1r.x.pipedream.net/'
-        e.preventDefault();
-        const formDataJSON = JSON.stringify({
-            ...formData, phone_number: formatPhoneNumber(formData.phone_number)
-        });
-        localStorage.setItem('formData', formDataJSON);
-        axios.post(url, formDataJSON)
-        navigate(`/merci/${formData.first_name}`)
-=======
-        // const url = 'https://enovode7uq1r.x.pipedream.net/';
-=======
         const url = 'https://enovode7uq1r.x.pipedream.net/';
->>>>>>> test
         const form = e.currentTarget;
         setToggleSubmit(true);
         if (form.checkValidity() === false) {
@@ -58,7 +44,6 @@ const FormComponent = () => {
             axios.post(url, formDataJSON);
             navigate(`/merci/${formData.first_name}`);
         }
->>>>>>> test
     }
 
     const validateForm = (values) => {
